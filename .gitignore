@@ -1,0 +1,4 @@
+# Colab / Jupyter working files
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
