@@ -1,7 +1,7 @@
 # 2306565 — What is a database?
 
 A short hands-on introduction to databases and SQL for chemical engineering students,
-taught on one month of real-shaped data from a boiler house.
+taught on three months of real-shaped data from a boiler house.
 
 **You do not need to install anything. Everything runs in your browser.**
 
@@ -52,9 +52,10 @@ Not how to memorise SQL. By the end of the session you should be able to say:
 The vocabulary for the day:
 
 ```
-SELECT   FROM   WHERE   ORDER BY   LIMIT   DISTINCT
+SELECT   FROM   WHERE   AND / OR   ORDER BY   LIMIT   DISTINCT
 COUNT    AVG    MIN     MAX        SUM
-GROUP BY   HAVING   JOIN ... ON   CASE WHEN   WITH
+GROUP BY        HAVING             JOIN ... ON
+substr(ts, 1, 7)     a sub-query in brackets
 ```
 
 Every exercise marks itself. Write your query inside `check("2.2", q("""..."""))` and it will
@@ -65,17 +66,23 @@ a worked answer once you have tried.
 
 ## The database
 
-Five tables, one month of data (April 2026) from a boiler house with three gas-fired boilers.
-It is deliberately small — you can scroll through any table and check an answer with your own
-eyes.
+Seven tables, three months of data (February to April 2026) from a boiler house with four
+gas-fired boilers. It is still small enough to scroll through and check an answer with your own
+eyes — and big enough to hide things.
 
 | Table | One row is | Rows |
 |---|---|---|
-| `boilers` | one boiler — tag, maker, rating, year | 3 |
+| `boilers` | one boiler — tag, maker, rating, year | 4 |
 | `operators` | one person on the shift roster | 6 |
-| `readings` | one instrument reading, every 4 hours | 540 |
-| `daily_logs` | one boiler on one day | 90 |
-| `water_tests` | one weekly water sample | 15 |
+| `readings` | one instrument reading, every 4 hours | 1,866 |
+| `daily_logs` | one boiler on one day | 311 |
+| `water_tests` | one weekly water sample | 45 |
+| `maintenance_events` | one job done on one boiler | 14 |
+| `fuel_prices` | what gas cost in one month | 3 |
+
+Hidden in there, for you to find: a boiler that is slowly fouling, another that had the same
+problem and was cured, three days when a boiler was off line, a thermocouple that spent a day
+reading zero, one impossible 511 °C spike, and a maintenance log that explains all of it.
 
 A row in `readings` never names a boiler — it says `boiler_id = 2`. That id is **not** the tag
 painted on the machine: `boiler_id = 2` is tag `B-2103` (the South watertube), not `B-2102`.
@@ -89,16 +96,19 @@ database — and guessing the machine from its id is the habit this notebook is 
 
 1. **Reading the data** — `SELECT`, `WHERE`, `AND`/`OR`, `ORDER BY`, `LIMIT`, `COUNT`, `DISTINCT`
 2. **Summarising** — `AVG`, `MIN`, `MAX`, `SUM`, `GROUP BY`, `HAVING`
-3. **Joining tables** — `JOIN ... ON`, two joins at once, and load as a share of rating
-4. **Sharper questions** — `CASE WHEN`, sub-queries, and grouping by week
-5. **One table that makes the case** — `WITH`, three summaries joined into one piece of evidence
+3. **Joining tables** — `JOIN ... ON`, two joins at once, load as a share of rating, and the
+   maintenance log
+4. **Investigating** — month by month with `substr`, sub-queries, counting only the rows that
+   matter, and the missing days
+5. **The case, and the money** — joining on a month you cut out yourself, and what the waste cost
 
-Exercises 1–3 give you a query with blanks to fill in. Exercise 4 gives you less, and Exercise 5
-gives you almost nothing. A final "take it further" list has no answers at all.
+29 tasks in all. Exercises 1–3 give you a query with blanks to fill in, Exercise 4 gives you
+less, and Exercise 5 gives you almost nothing. A final "take it further" list has no answers.
 
-One of the three boilers is quietly wasting gas — and it is getting worse week by week. The
-stack thermocouple and the gas meter are different instruments on different tables, and by the
-end of the session you will have made them agree.
+One of the four boilers is quietly wasting gas, and it is getting worse every month. The stack
+thermocouple and the gas meter are different instruments on different tables; the maintenance log
+is fourteen rows of somebody's typing. By the end of the session you will have made all three
+agree, and put a price on it.
 
 ---
 
