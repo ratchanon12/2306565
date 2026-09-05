@@ -232,11 +232,11 @@
 
     <div class="qq">“Per tonne / per hour / per day”</div>
     <div class="aa"><span class="arrow">→</span>divide one <span class="mono">SUM</span> by another</div>
-    <div class="qq">“Compared with the average”</div>
+    <div class="qq">“Compared with the average” <span style="color:#8f9ba1">·&nbsp;next&nbsp;step</span></div>
     <div class="aa"><span class="arrow">→</span><span class="mono">&gt; (SELECT AVG(x) FROM t)</span> in the <span class="mono">WHERE</span></div>
     <div class="qq">“Why did it change?”</div>
     <div class="aa"><span class="arrow">→</span>look it up in <span class="mono">maintenance_events</span></div>
-    <div class="qq">“Is it getting worse?”</div>
+    <div class="qq">“Is it getting worse?” <span style="color:#8f9ba1">·&nbsp;next&nbsp;step</span></div>
     <div class="aa"><span class="arrow">→</span><span class="mono">GROUP BY substr(ts, 1, 7)</span> — by month</div>
   </div>
 </div>
@@ -260,16 +260,16 @@
   <div class="box">
     <h3>The shape of a real query</h3>
     <div class="body">
-<pre><span class="cm">-- is any boiler getting worse?</span>
-<span class="kw">SELECT</span>   <span class="kw">substr</span>(d.log_date, 1, 7) <span class="kw">AS</span> month,
-         b.code,
+<pre><span class="cm">-- which boiler wastes gas? one row per boiler</span>
+<span class="kw">SELECT</span>   b.code,
          <span class="kw">ROUND</span>(<span class="kw">SUM</span>(d.fuel_gj)/<span class="kw">SUM</span>(d.steam_t), 3) <span class="kw">AS</span> gj_t,
          <span class="kw">COUNT</span>(*) <span class="kw">AS</span> n_days
 <span class="kw">FROM</span>     daily_logs d
 <span class="kw">JOIN</span>     boilers    b  <span class="kw">ON</span>  b.boiler_id = d.boiler_id
-<span class="kw">GROUP BY</span> <span class="kw">substr</span>(d.log_date, 1, 7), b.code
+<span class="kw">WHERE</span>    d.log_date <span class="kw">LIKE</span> <span class="st">'2026-04%'</span>
+<span class="kw">GROUP BY</span> b.code
 <span class="kw">HAVING</span>   <span class="kw">COUNT</span>(*) &gt; 20
-<span class="kw">ORDER BY</span> b.code, month</pre>
+<span class="kw">ORDER BY</span> gj_t <span class="kw">DESC</span></pre>
       <div style="margin-top:5px; font-size:8pt; color:#464f54;">
         <b>Pieces worth remembering:</b>
         <span class="mono">AVG MIN MAX SUM COUNT</span> ·

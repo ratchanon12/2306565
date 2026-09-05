@@ -55,7 +55,6 @@ The vocabulary for the day:
 SELECT   FROM   WHERE   AND / OR   ORDER BY   LIMIT   DISTINCT
 COUNT    AVG    MIN     MAX        SUM
 GROUP BY        HAVING             JOIN ... ON
-substr(ts, 1, 7)     a sub-query in brackets
 ```
 
 Every exercise marks itself. Write your query inside `check("2.2", q("""..."""))` and it will
@@ -92,18 +91,17 @@ database — and guessing the machine from its id is the habit this notebook is 
 
 ---
 
-## The five exercises
+## The three exercises
 
 1. **Reading the data** — `SELECT`, `WHERE`, `AND`/`OR`, `ORDER BY`, `LIMIT`, `COUNT`, `DISTINCT`
 2. **Summarising** — `AVG`, `MIN`, `MAX`, `SUM`, `GROUP BY`, `HAVING`
 3. **Joining tables** — `JOIN ... ON`, two joins at once, load as a share of rating, and the
-   maintenance log
-4. **Investigating** — month by month with `substr`, sub-queries, counting only the rows that
-   matter, and the missing days
-5. **The case, and the money** — joining on a month you cut out yourself, and what the waste cost
+   maintenance log that explains everything
 
-29 tasks in all. Exercises 1–3 give you a query with blanks to fill in, Exercise 4 gives you
-less, and Exercise 5 gives you almost nothing. A final "take it further" list has no answers.
+19 tasks in all, each a query with blanks to fill in — fewer blanks as you go, and the last one
+is all yours. Then you write the finding in four sentences. A "take it further" list at the end
+has no answers: grouping by month, putting a price on the waste, and comparing rows against a
+sub-query.
 
 One of the four boilers is quietly wasting gas, and it is getting worse every month. The stack
 thermocouple and the gas meter are different instruments on different tables; the maintenance log
@@ -120,6 +118,5 @@ agree, and put a price on it.
 | `no such table: boilers` | You have not run the first two cells yet, or the runtime restarted. Run them. |
 | `no such column: B-2103` | Text needs **single** quotes: `code = 'B-2103'`, not `code = "B-2103"`. |
 | `[2.2] not there yet` | Your query ran, but the answer is not the expected one. Try `hint("2.2")`. |
-| Percentages all come out `0` | Integer division. Write `100.0 * ...`, not `100 * ...`. |
 | An empty result | Your `WHERE` is too strict. Take it off and look at the raw rows first. |
 | You want to start a question again | Just retype the query and run the cell. You cannot damage anything. |
